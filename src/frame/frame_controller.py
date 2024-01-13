@@ -4,14 +4,11 @@ from . import *
 class ControlFrame(tk.Frame):
     def __init__(self, master : tk.Tk, image_frame : 'ImageFrame'):
         # super().__init__(master, relief=tk.RAISED, borderwidth=2, background='green')
-        super().__init__(master, relief=tk.RAISED, borderwidth=2)
+        super().__init__(master, relief=tk.RAISED)
 
         # General setup.
         self.master = master
         self.image_frame = image_frame
-
-        # Self geometry setup.
-        self.grid(row=0, column=0, sticky="ns")
 
         # Widgets setup.
         self.btn_open = tk.Button(master=self, text="Open", command=self.image_frame.load_image)
@@ -26,12 +23,6 @@ class ControlFrame(tk.Frame):
 
         self.draw_type_menu = tk.OptionMenu(self, self.draw_type, "Line", "Rectangle")
         self.draw_type_menu.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
-
-        self.btn_normalize = tk.Button(master=self, text="Normalize", command=self.image_frame.normalize)
-        self.btn_normalize.grid(row=3, column=0, sticky="ew", padx=5, pady=5)
-
-        self.btn_unnormalize = tk.Button(master=self, text="Unnormalize", command=self.image_frame.unnormalize)
-        self.btn_unnormalize.grid(row=4, column=0, sticky="ew", padx=5, pady=5)
 
     def on_draw_type_change(self, *args : Any):
         self.image_frame.draw_type.set(self.draw_type.get())
