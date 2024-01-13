@@ -49,8 +49,8 @@
 
 - Package the application
 
-```c++
-pyinstaller --onefile --windowed .\src\main.py
-```
+    ```c++
+    pyinstaller --onefile --windowed .\src\main.py
+    ```
 
 - The executable file will be generated in the `dist` folder
