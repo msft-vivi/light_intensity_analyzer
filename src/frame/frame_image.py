@@ -97,7 +97,9 @@ class ImageFrame(tk.Frame):
         # return [int(0.299 * pixel[0] + 0.587 * pixel[1] + 0.114 * pixel[2]) for pixel in rectangle_pixels]
         
     def get_rectangle_pixels(self):
-        crop_rectangle = (self.start_x, self.start_y, self.end_x, self.end_y)
+        left_x, right_x = sorted([self.start_x, self.end_x])
+        top_y, bottom_y = sorted([self.start_y, self.end_y])
+        crop_rectangle = (left_x, top_y, right_x, bottom_y)
         cropped_image = self.image.crop(crop_rectangle)
         pixels = np.array(cropped_image)
         return pixels
