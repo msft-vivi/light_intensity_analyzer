@@ -21,7 +21,7 @@ if __name__ == "__main__":
     window = tk.Tk()
     window.geometry(init_window_size)
     window.protocol("WM_DELETE_WINDOW", sys.exit)
-    window.title("Simple Color Analyzer")
+    window.title("Simple Light Intensity Analyzer")
     window.rowconfigure(0, minsize=config.image_frame_height, weight=1)
     window.columnconfigure(0, minsize=config.control_frame_width)
     window.columnconfigure(1, minsize=config.image_frame_width, weight=1)

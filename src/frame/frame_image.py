@@ -3,7 +3,7 @@ from . import *
 
 class ImageFrame(tk.Frame):
     def __init__(self, master : tk.Tk, config : Config, result_frame : 'ResultFrame'):
-        super().__init__(master, relief=tk.RAISED, background='green', pady=5, padx=5)
+        super().__init__(master, relief=tk.RAISED, pady=5, padx=5)
 
         # General setup.
         self.config = config
