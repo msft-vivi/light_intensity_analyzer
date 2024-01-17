@@ -11,28 +11,39 @@ class LineDrawer(tk.Frame):
 
         # Create a canvas object which eanble to put matplot graph on tkinter.
         self.canvas = FigureCanvasTkAgg(self.fig, master=self)
-        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        self.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+        self.rowconfigure([0,1], weight=1)
+        self.columnconfigure([0], weight=1)
+        # self.grid_columnconfigure(0, weight=1)
+        # self.grid_rowconfigure(0, weight=1)
 
         # Bind the event handler to the canvas.
         self.fig.canvas.mpl_connect('button_press_event', self.on_click)
 
         # Buttons for adding and deleting points.
         self.btn_extreme = tk.StringVar(self, value="none")
+        self.btn_extreme_control_group = tk.Frame(self)
+        self.btn_extreme_control_group.grid(row=1, column=0)
 
-        self.btn_add_maximum = tk.Button(self, text="add_maximum", command= lambda : self.btn_extreme.set("add_maximum"))
-        self.btn_add_maximum.pack()
+        for i in range(5):
+            self.btn_extreme_control_group.columnconfigure(i, weight=1)
 
-        self.btn_add_minimum = tk.Button(self, text="add_minimum", command= lambda : self.btn_extreme.set("add_minimum"))
-        self.btn_add_minimum.pack()
+        button_style = {'background': 'lightblue', 'font': ('Helvetica', '10'), 'relief': 'raised', 'borderwidth': 3}
+
+        self.btn_add_maximum = tk.Button(self.btn_extreme_control_group, text="Add Maximum", command= lambda : self.btn_extreme.set("add_maximum"), **button_style)
+        self.btn_add_maximum.grid(row=1, column=0, sticky="ew")
+
+        self.btn_add_minimum = tk.Button(self.btn_extreme_control_group, text="Add Minimum", command= lambda : self.btn_extreme.set("add_minimum"), **button_style)
+        self.btn_add_minimum.grid(row=1, column=1, sticky="ew")
         
-        self.btn_delete_maximum = tk.Button(self, text="delete_maximum", command= lambda: self.btn_extreme.set("delete_maximum"))
-        self.btn_delete_maximum.pack(side=tk.LEFT)
+        self.btn_delete_maximum = tk.Button(self.btn_extreme_control_group, text="Delete Maximum", command= lambda: self.btn_extreme.set("delete_maximum"), **button_style)
+        self.btn_delete_maximum.grid(row=1, column=2, sticky="ew")
 
-        self.btn_delete_minimum = tk.Button(self, text="delete_minimum", command= lambda: self.btn_extreme.set("delete_minimum"))
-        self.btn_delete_minimum.pack(side=tk.LEFT)
+        self.btn_delete_minimum = tk.Button(self.btn_extreme_control_group, text="Delete Minimum", command= lambda: self.btn_extreme.set("delete_minimum"), **button_style)
+        self.btn_delete_minimum.grid(row=1, column=3, sticky="ew")
 
-        self.normalize = tk.Button(self, text="normalize", command= lambda: self.normalize_line())
-        self.normalize.pack(side=tk.LEFT)
+        self.normalize = tk.Button(self.btn_extreme_control_group, text="Normalize", command= lambda: self.normalize_line(), **button_style)
+        self.normalize.grid(row=1, column=4, sticky="ew")
 
         # Instance related variables.
         self.minimum_indices = []
@@ -240,3 +251,11 @@ class LineDrawer(tk.Frame):
         self.draw_scatter(self.line_indicecs[self.maximum_indices], normalized_values[self.maximum_indices], self.axex2)
         self.draw_scatter(self.line_indicecs[self.minimum_indices], normalized_values[self.minimum_indices], self.axex2, color='blue')
         self.update_figure()
+    
+    
+    def get_input():
+        value1 = self.input_entry1.get()
+        print(value1)  # or do something else with the value
+
+        value2 = self.input_entry2.get()
+        print(value2)  # or do something else with the value
