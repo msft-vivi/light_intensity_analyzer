@@ -70,10 +70,10 @@ class ImageFrame(tk.Frame):
         if self.draw_type.get() == "Line":
             self.draw_line()
             line_pixels = self.get_line_pixels()
-            current_gray_scale = self.convert_pixels_to_grayscale(line_pixels)
+            # current_gray_scale = self.convert_pixels_to_grayscale(line_pixels)
             data = {
                 "key" : "line",
-                "value" : current_gray_scale
+                "value" : line_pixels
             }
             self.backup_gray_scale = data
             self.result_frame.on_draw_event(**data)
@@ -115,6 +115,7 @@ class ImageFrame(tk.Frame):
     def get_line_pixels(self):
         line_pixels = list(bham.bresenham(self.start_x, self.start_y, self.end_x, self.end_y))
         pixel_values = [self.image.convert("RGB").getpixel(pixel) for pixel in line_pixels]
+        # log("pixel value: {}".format(pixel_values))
         return pixel_values
 
 

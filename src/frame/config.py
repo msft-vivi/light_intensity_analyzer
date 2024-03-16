@@ -3,14 +3,14 @@ from . import *
 class Config():
     def __init__(self):
         # TK window related config.
-        self.window_min_width = 2000
+        self.window_min_width = 2500
 
         self.control_frame_width = 150
 
         self.image_frame_width = (self.window_min_width - self.control_frame_width) * 0.5
         self.image_frame_height = self.image_frame_width * 9 / 16
 
-        self.window_min_height = int(self.image_frame_height * 1.4)
+        self.window_min_height = int(self.image_frame_height * 1.6)
         
         self.target_color = "red"
 

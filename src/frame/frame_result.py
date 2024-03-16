@@ -4,7 +4,7 @@ from .rectangle_drawer import RectangleDrawer
 
 class ResultFrame(tk.Frame):
     def __init__(self, master : tk.Tk):
-        super().__init__(master, relief=tk.SUNKEN, borderwidth=2, background='red')
+        super().__init__(master, relief=tk.SUNKEN, borderwidth=2)
         self.master = master
 
         # Create a Figure and Axes object.
