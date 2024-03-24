@@ -61,7 +61,7 @@ class LineDrawer(tk.Frame):
         self.point_level_label = tk.Label(self.btn_extreme_control_group, text="Initial Point Level:", **button_style)
         self.point_level_label.grid(row=3, column=0, sticky="ew", padx=5, pady=5)
 
-        options = ["0", "1", "2", "3", "4"]
+        options = ["0", "1", "2", "3", "4", "5", "6", "7"]
         self.point_level_menu = tk.OptionMenu(self.btn_extreme_control_group, self.point_level, *options)
         self.point_level_menu.grid(row=3, column=1, sticky="ew", padx=5, pady=5)
 
@@ -123,38 +123,51 @@ class LineDrawer(tk.Frame):
         axes.scatter(x, y, label='scatter', color=color)
 
     def draw_thickness(self):
+        
+        def get_initial_x_thicknes_point():
+            inital_x = -1
+            for ind, val in enumerate(self.all_extreme_points):
+                if self.all_extreme_points[ind] < self.selected_point_x and self.all_extreme_points[ind + 1] > self.selected_point_x:
+                    inital_x = val
+                    break
+            return inital_x
+        
         assert self.selected_point_x != None and self.selected_point_y != None, "Please select inital level point from normalized plot first."
         
-        # Print left and right points of the selected point.
-        print("all extreme points: ", self.all_extreme_points)
+        # Get all the light intensity values for the extreme points.
         point_and_normalized_light_pairs = [(self.line_indicecs[i], self.normalized_values[i]) for i in self.all_extreme_points]
-        print("point_and_normalized_light_pairs: ", point_and_normalized_light_pairs)
 
+        # Split the points into left and right side of the selected point.
         left_pairs = [x for x in point_and_normalized_light_pairs if x[0] < self.selected_point_x]
         right_pairs = [x for x in point_and_normalized_light_pairs if x[0] > self.selected_point_x]
 
+        # Decide the selected extreme point interval that the selected point is in.
         self.selected_interval_start_x, self.selected_interval_end_x = self.get_interval_from_extreme_points()
         assert self.selected_interval_start_x != -1 and self.selected_interval_end_x != -1
         
-        print("left_pairs: ", left_pairs)
-        print("right_pairs: ", right_pairs)
+        # Get the initial x value for the thickness point.
+        initial_x = get_initial_x_thicknes_point()
+        assert initial_x != -1, "Initial x is not found"
+
+        # Get all the thickness x value.
         self.thickness_x = [x[0] for x in left_pairs]
-        self.thickness_x += [self.selected_point_x]
+        self.thickness_x += [initial_x]
         self.thickness_x += [x[0] for x in right_pairs]
 
+        # Get the initial point level from the input.
         initial_level = self.point_level.get()
         assert initial_level is not None and initial_level != "", "Initial level is not set"
         initial_level = int(initial_level)
 
+        # Get all the thickness y value.
         self.thickness_y = [FilmThickness.get_thickness(len(left_pairs) - i + initial_level, x[1]) for i, x in enumerate(left_pairs)]
-        self.thickness_y += [FilmThickness.get_thickness(0, 1)] # Initial point value.
+        self.thickness_y += [FilmThickness.get_thickness(0, initial_level)] # Initial point value.
         self.thickness_y += [FilmThickness.get_thickness(i + 1 + initial_level, x[1]) for i, x in enumerate(right_pairs)]
 
-        print("thickness_x: ", self.thickness_x)
-        print("thickness_y: ", self.thickness_y)
         assert len(self.thickness_x) == len(self.thickness_y)
         assert self.thickness_x is not None and self.thickness_y is not None , "Thickness x and y are not set"
 
+        # Draw the thickness graph.
         self.axes3.clear()
         self.draw_line(self.thickness_x, self.thickness_y, self.axes3, "Film Thickness")
         self.update_figure()

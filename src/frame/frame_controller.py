@@ -12,10 +12,10 @@ class ControlFrame(tk.Frame):
 
         # Widgets setup.
         self.btn_open = tk.Button(master=self, text="Open", command=self.image_frame.load_image)
-        self.btn_save = tk.Button(master=self, text="Save As...")
+        # self.btn_save = tk.Button(master=self, text="Save As...")
 
         self.btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
-        self.btn_save.grid(row=1, column=0, sticky="ew", padx=5)
+        # self.btn_save.grid(row=1, column=0, sticky="ew", padx=5)
 
         self.draw_type = tk.StringVar(self)
         self.draw_type.set("Line")  # default value

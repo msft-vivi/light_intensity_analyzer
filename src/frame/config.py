@@ -3,7 +3,7 @@ from . import *
 class Config():
     def __init__(self):
         # TK window related config.
-        self.window_min_width = 2500
+        self.window_min_width = 1800
 
         self.control_frame_width = 150
 
